@@ -36,8 +36,8 @@ ex -sc '1d|x' gradle.properties
 ex -sc "1i|$VERSION_NAME" -cx gradle.properties
 
 # Updating README file
-GRADLE_LINE="implementation 'com.github.felHR85:UsbSerial:${VERSION}'"
-LINE=$(cat README.md | grep -nr implementation\ \'com.github.felHR85:UsbSerial: | awk -F ":" '{print $2}')
+GRADLE_LINE="implementation 'com.github.AurelienBallier:UsbSerial:${VERSION}'"
+LINE=$(cat README.md | grep -nr implementation\ \'com.github.AurelienBallier:UsbSerial: | awk -F ":" '{print $2}')
 ex -sc "${LINE}d|x" README.md
 ex -sc "${LINE}i|$GRADLE_LINE" -cx README.md
 
