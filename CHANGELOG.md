@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+Release 6.1.1
+--------------------------------------
+- Integrate master commit since 6.1.0.
+- Update build system.
+- Add CDC multi devices support.
+
 Release 6.1.0
 --------------------------------------
 - Added 1228800 and 2000000 baud rates to CH34xx driver.
