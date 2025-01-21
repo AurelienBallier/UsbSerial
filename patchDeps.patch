@@ -1,0 +1,329 @@
+diff --git a/build.gradle b/build.gradle
+index fb92dc5..fb139a4 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -5,7 +5,7 @@ buildscript {
+ 
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:4.2.1'
++        classpath 'com.android.tools.build:gradle:8.7.2'
+     }
+ }
+ 
+diff --git a/example/build.gradle b/example/build.gradle
+index 2b0a891..0acd578 100644
+--- a/example/build.gradle
++++ b/example/build.gradle
+@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
+ android {
+ 
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
++    namespace = 'com.felhr.serialportexample'
+ 
+     defaultConfig {
+         applicationId "com.felhr.serialportexample"
+diff --git a/example/src/main/AndroidManifest.xml b/example/src/main/AndroidManifest.xml
+index e3ebd4c..acc55a1 100644
+--- a/example/src/main/AndroidManifest.xml
++++ b/example/src/main/AndroidManifest.xml
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<manifest package="com.felhr.serialportexample"
+-          xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <uses-feature android:name="android.hardware.usb.host"
+                   android:required="true"/>
+diff --git a/example/src/main/java/com/felhr/serialportexample/UsbService.java b/example/src/main/java/com/felhr/serialportexample/UsbService.java
+index 0efac01..0333cdc 100644
+--- a/example/src/main/java/com/felhr/serialportexample/UsbService.java
++++ b/example/src/main/java/com/felhr/serialportexample/UsbService.java
+@@ -231,7 +231,7 @@ public class UsbService extends Service {
+      */
+     private void requestUserPermission() {
+         Log.d(TAG, String.format("requestUserPermission(%X:%X)", device.getVendorId(), device.getProductId() ) );
+-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
++        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+         usbManager.requestPermission(device, mPendingIntent);
+     }
+ 
+diff --git a/examplemultipleports/build.gradle b/examplemultipleports/build.gradle
+index 394dd7b..edf75e1 100644
+--- a/examplemultipleports/build.gradle
++++ b/examplemultipleports/build.gradle
+@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
+ android {
+ 
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
++    namespace = 'com.felhr.examplemultipleports'
+ 
+     defaultConfig {
+         applicationId "com.felhr.examplemultipleports"
+@@ -41,5 +42,5 @@ dependencies {
+     testImplementation 'junit:junit:4.12'
+ 
+     implementation project(':usbserial')
+-    implementation 'com.annimon:stream:1.2.1'
++    implementation 'com.annimon:stream:1.2.2'
+ }
+diff --git a/examplemultipleports/src/main/AndroidManifest.xml b/examplemultipleports/src/main/AndroidManifest.xml
+index 33bee6a..4b668a3 100644
+--- a/examplemultipleports/src/main/AndroidManifest.xml
++++ b/examplemultipleports/src/main/AndroidManifest.xml
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<manifest package="com.felhr.examplemultipleports"
+-          xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <uses-feature android:name="android.hardware.usb.host"
+                   android:required="true"/>
+diff --git a/examplestreams/build.gradle b/examplestreams/build.gradle
+index 15d7ba1..f6a7f65 100644
+--- a/examplestreams/build.gradle
++++ b/examplestreams/build.gradle
+@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
+ android {
+ 
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
++    namespace = 'com.felhr.examplestreams'
+ 
+     defaultConfig {
+         applicationId "com.felhr.examplestreams"
+diff --git a/examplestreams/src/main/AndroidManifest.xml b/examplestreams/src/main/AndroidManifest.xml
+index bf1b880..47788ce 100644
+--- a/examplestreams/src/main/AndroidManifest.xml
++++ b/examplestreams/src/main/AndroidManifest.xml
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<manifest package="com.felhr.examplestreams"
+-          xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <uses-feature android:name="android.hardware.usb.host"
+                   android:required="true"/>
+diff --git a/examplestreams/src/main/java/com/felhr/examplestreams/UsbService.java b/examplestreams/src/main/java/com/felhr/examplestreams/UsbService.java
+index f53ec19..770fbe3 100644
+--- a/examplestreams/src/main/java/com/felhr/examplestreams/UsbService.java
++++ b/examplestreams/src/main/java/com/felhr/examplestreams/UsbService.java
+@@ -211,7 +211,7 @@ public class UsbService extends Service {
+      */
+     private void requestUserPermission() {
+         Log.d(TAG, String.format("requestUserPermission(%X:%X)", device.getVendorId(), device.getProductId() ) );
+-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
++        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+         usbManager.requestPermission(device, mPendingIntent);
+     }
+ 
+diff --git a/examplesync/build.gradle b/examplesync/build.gradle
+index ff11814..993eba6 100644
+--- a/examplesync/build.gradle
++++ b/examplesync/build.gradle
+@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
+ android {
+ 
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
++    namespace = 'com.felhr.serialportexamplesync'
+ 
+     defaultConfig {
+         applicationId "com.felhr.serialportexamplesync"
+diff --git a/examplesync/src/main/AndroidManifest.xml b/examplesync/src/main/AndroidManifest.xml
+index 19e6b99..0af866d 100644
+--- a/examplesync/src/main/AndroidManifest.xml
++++ b/examplesync/src/main/AndroidManifest.xml
+@@ -1,5 +1,4 @@
+-<manifest package="com.felhr.serialportexamplesync"
+-          xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <uses-feature android:name="android.hardware.usb.host"
+                   android:required="true"/>
+diff --git a/examplesync/src/main/java/com/felhr/serialportexamplesync/UsbService.java b/examplesync/src/main/java/com/felhr/serialportexamplesync/UsbService.java
+index 2bccdcf..5f23d7c 100644
+--- a/examplesync/src/main/java/com/felhr/serialportexamplesync/UsbService.java
++++ b/examplesync/src/main/java/com/felhr/serialportexamplesync/UsbService.java
+@@ -241,7 +241,7 @@ public class UsbService extends Service {
+      */
+     private void requestUserPermission() {
+         Log.d(TAG, String.format("requestUserPermission(%X:%X)", device.getVendorId(), device.getProductId() ) );
+-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
++        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+         usbManager.requestPermission(device, mPendingIntent);
+     }
+ 
+diff --git a/gradle.properties b/gradle.properties
+index c36a6b7..cf8c05a 100644
+--- a/gradle.properties
++++ b/gradle.properties
+@@ -1,5 +1,6 @@
+ VERSION_NAME=6.1.0
+ VERSION_CODE=1
+-ANDROID_BUILD_MIN_SDK_VERSION=12
++ANDROID_BUILD_MIN_SDK_VERSION=24
+ ANDROID_BUILD_TARGET_SDK_VERSION=27
+ ANDROID_BUILD_SDK_VERSION=27
++org.gradle.jvmargs=-Xmx2G
+\ No newline at end of file
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index 5d527a6..f372a90 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,6 @@
+-#Mon Dec 14 15:18:57 PST 2020
++#Mon Nov 04 16:19:15 EET 2024
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.9-bin.zip
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-6.7.1-all.zip
+diff --git a/integrationapp/build.gradle b/integrationapp/build.gradle
+index bd452a7..bf6c3df 100644
+--- a/integrationapp/build.gradle
++++ b/integrationapp/build.gradle
+@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
+ 
+ android {
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
++    namespace = 'com.felhr.integrationapp'
+ 
+     defaultConfig {
+         applicationId "com.felhr.integrationapp"
+diff --git a/integrationapp/src/main/AndroidManifest.xml b/integrationapp/src/main/AndroidManifest.xml
+index 17f00d5..6016ddb 100644
+--- a/integrationapp/src/main/AndroidManifest.xml
++++ b/integrationapp/src/main/AndroidManifest.xml
+@@ -1,6 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<manifest package="com.felhr.integrationapp"
+-          xmlns:android="http://schemas.android.com/apk/res/android">
++<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <uses-feature android:name="android.hardware.usb.host"
+                   android:required="true"/>
+diff --git a/integrationapp/src/main/java/com/felhr/integrationapp/UsbService.java b/integrationapp/src/main/java/com/felhr/integrationapp/UsbService.java
+index 54f3813..674f47d 100644
+--- a/integrationapp/src/main/java/com/felhr/integrationapp/UsbService.java
++++ b/integrationapp/src/main/java/com/felhr/integrationapp/UsbService.java
+@@ -269,7 +269,7 @@ public class UsbService extends Service {
+      */
+     private void requestUserPermission() {
+         Log.d(TAG, String.format("requestUserPermission(%X:%X)", device.getVendorId(), device.getProductId() ) );
+-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
++        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+         usbManager.requestPermission(device, mPendingIntent);
+     }
+ 
+diff --git a/integrationapp/src/main/java/com/felhr/integrationapp/UsbSyncService.java b/integrationapp/src/main/java/com/felhr/integrationapp/UsbSyncService.java
+index 50cf5cc..bc52625 100644
+--- a/integrationapp/src/main/java/com/felhr/integrationapp/UsbSyncService.java
++++ b/integrationapp/src/main/java/com/felhr/integrationapp/UsbSyncService.java
+@@ -209,7 +209,7 @@ public class UsbSyncService extends Service {
+      */
+     private void requestUserPermission() {
+         Log.d(TAG, String.format("requestUserPermission(%X:%X)", device.getVendorId(), device.getProductId() ) );
+-        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
++        PendingIntent mPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), PendingIntent.FLAG_IMMUTABLE);
+         usbManager.requestPermission(device, mPendingIntent);
+     }
+ 
+diff --git a/jitpack.yml b/jitpack.yml
+new file mode 100644
+index 0000000..3c6904e
+--- /dev/null
++++ b/jitpack.yml
+@@ -0,0 +1,3 @@
++# configuration file for building snapshots and releases with jitpack.io
++jdk:
++  - openjdk17
+\ No newline at end of file
+diff --git a/usbserial/build.gradle b/usbserial/build.gradle
+index 3aa38d0..f700189 100644
+--- a/usbserial/build.gradle
++++ b/usbserial/build.gradle
+@@ -1,11 +1,10 @@
+ apply plugin: 'com.android.library'
+-
+-def artifact = "usbserial.jar"
++apply plugin: 'maven-publish'
+ 
+ android {
+-
+-    group = 'com.felhr.usbserial'
++    group = 'com.felhr'
+     version = project.VERSION_NAME
++    namespace = 'com.felhr.usbserial'
+ 
+     compileSdkVersion Integer.parseInt(project.ANDROID_BUILD_SDK_VERSION)
+ 
+@@ -18,34 +17,44 @@ android {
+     defaultConfig {
+         minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
+         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
+-        archivesBaseName = "${project.name}-${project.VERSION_NAME}"
+         consumerProguardFiles 'proguard-rules.pro'
+     }
+ 
+-    //noinspection GroovyAssignabilityCheck
+-    task deleteJar(type: Delete) {
+-        delete "eclipse_lib/${artifact}"
++    buildTypes {
++        release {
++            minifyEnabled false
++            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
++        }
+     }
+ 
+-    //noinspection GroovyAssignabilityCheck
+-    task createJar(type: org.gradle.api.tasks.Copy) {
+-        from('build/intermediates/bundles/release/')
+-        into('eclipse_lib/')
+-        include('classes.jar')
+-        rename('classes.jar', artifact)
++    publishing {
++        singleVariant('release') {
++            withSourcesJar()
++        }
+     }
+ 
+     dependencies {
+-        implementation 'com.annimon:stream:1.2.1'
+-        implementation 'com.squareup.okio:okio:2.1.0'
++        implementation 'com.annimon:stream:1.2.2'
++        implementation 'com.squareup.okio:okio:3.9.1'
+ 
+         androidTestImplementation 'com.android.support.test:runner:1.0.2'
+         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+-        androidTestImplementation 'junit:junit:4.12'
+-
+-        testImplementation 'junit:junit:4.12'
++        androidTestImplementation 'junit:junit:4.13.2'
+ 
++        testImplementation 'junit:junit:4.13.2'
+     }
+-
+-    createJar.dependsOn(deleteJar, build)
+ }
++
++afterEvaluate {
++    publishing {
++        publications {
++            // Creates a Maven publication called "release".
++            release(MavenPublication) {
++                from components.release
++                groupId = 'com.felhr'
++                artifactId = 'usbserial'
++                version = project.VERSION_NAME
++            }
++        }
++    }
++}
+\ No newline at end of file
+diff --git a/usbserial/src/main/AndroidManifest.xml b/usbserial/src/main/AndroidManifest.xml
+index 545a063..cc947c5 100644
+--- a/usbserial/src/main/AndroidManifest.xml
++++ b/usbserial/src/main/AndroidManifest.xml
+@@ -1 +1 @@
+-<manifest package="com.felhr.usbserial"/>
++<manifest />
