@@ -63,7 +63,7 @@ public class CDCSerialDevice extends UsbSerialDevice
     public CDCSerialDevice(UsbDevice device, UsbDeviceConnection connection, int iface)
     {
         super(device, connection);
-        cdcControl = findFirstControl(device); // Not sure how to find the control interface for others.
+        cdcControl = (iface >= 1)?(iface - 1):findFirstControl(device); // For multiple CDC serial interfaces it usually goes by pair (first for COMM and second for DATA).
         mInterface = device.getInterface(iface >= 0 ? iface : findFirstCDC(device));
     }
 
